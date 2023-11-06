@@ -1,0 +1,75 @@
+{
+    "aliases": {
+        "system":       ["<ANY>", "system", "program"],
+        "dismiss":      ["<ANY>", "dismiss", "silence", "thanks", "thank you", "nevermind", "shut up"],
+        "today":        ["<ANY>", "today", "todays", "today's"],
+        "remaining":    ["<ANY>", "remaining", "left"],
+        "get_1":        ["<ANY>", "what", "what's", "get", "give", "tell", "say"],
+        "start_1":      ["<ANY>", "start", "set", "create", "make", "do"],
+        "stop_1":       ["<ANY>", "stop", "cancel", "delete", "scrap"]
+    },
+    "commands": {
+        "Shutdown": {
+            "preqs": [],
+            "input": ["shutdown"],
+            "actns": [
+                ["SAY", "System Shutting down. Goodbye!"],
+                "SHUTDOWN"
+            ]
+        },
+        "Dismiss UI": {
+            "preqs": [["IS_SPEAKING", true]],    
+            "input": ["^dismiss"],
+            "actns": [
+                "DISMISS"
+            ]
+        },
+        "Get Time": {
+            "preqs": [],
+            "input": ["^get_1", "time"],
+            "actns": [
+                "GET_TIME", 
+                ["SAY", "the current time is", "^A0"]
+            ]
+        },
+        "Get Date": {
+            "preqs": [],
+            "input": ["^get_1", "date"],
+            "actns": [
+                "GET_DATE",
+                ["SAY", "today's date is", "^A0"]
+            ]
+        },
+        "Start Timer": {
+            "preqs": [],
+            "input": ["timer", "^start_1", "<D>1-360000"],
+            "actns": [
+                ["START_TIMER", "^I2"],
+                ["SAY", "timer set for", "^I1", "^I2"]
+            ]
+        },
+        "Stop Timer": {
+            "preqs": [["TIMER_ACTIVE", true]],
+            "input": ["timer", "^stop_1"],
+            "actns": [
+                "STOP_TIMER",
+                ["SAY", "timer stopped"]
+            ]
+        },
+        "Get Timer Time": {
+            "preqs": [["TIMER_ACTIVE", true]],
+            "input": ["timer", "^remaining"],
+            "actns": [
+                "GET_TIMER",
+                ["SAY", "There is", "^A0", "remaining on the timer"]
+            ]
+        },
+        "Create Quick Note": {
+            "preqs": [],
+            "input": ["^start_1", "note", "content", "<_>"],
+            "actns": [
+                ["SAY", "Writing a new note with the content:", "^I3"]
+            ]
+        }
+    }
+}
