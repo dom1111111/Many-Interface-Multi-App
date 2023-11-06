@@ -1,0 +1,8 @@
+pytest_cache/
+*__pycache__/
+*.pyc
+
+app/GUI_audio_voice/vosk_models
+app/GUI_audio_voice/sounds/program_chimes.aup3
+venv/
+dev_notes.md
