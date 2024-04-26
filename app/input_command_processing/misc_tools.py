@@ -1,6 +1,6 @@
 def flatten_generator(container:list|tuple|set):
     """Pass in a list, tuple, or set which can have any number of other lists/tuples/sets 
-    or non container items within, as well as any abitrary depth for further 
+    or non container items within, as well as any arbitrary depth for further 
     nested containers, and get back a flattened iterable generator."""
     for item in container:
         if isinstance(item, (list, tuple, set)):

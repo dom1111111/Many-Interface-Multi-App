@@ -50,14 +50,14 @@ MATH_OPERATOR_WORD_MAP = {
 
 #--- duration word maps ---#
 
-DURATION_WORD_MAP = {    # ammount of seconds each a durational unit of time
+DURATION_WORD_MAP = {    # amount of seconds each a durational unit of time
     "second":   1, 
     "minute":   60, 
     "hour":     3600, 
     "day":      86400, 
     "week":     604800, 
     "fortnight":1209600,    # a fortnight is 14 days
-    "month":    2629800,    # based on a month which is exactly 1/12th of a year (no actual calendar month works like this, but this for the sake of consistentcy)
+    "month":    2629800,    # based on a month which is exactly 1/12th of a year (no actual calendar month works like this, but this for the sake of consistency)
     "year":     31557600,   # based on average of 365.25 days in a year
 }
 
@@ -77,7 +77,7 @@ DAY_WORD_MAP = {
     'night':    00, 
     'midnight': 00
 }
-    # 'hours' is needed for recognizing 24 hour time speach
+    # 'hours' is needed for recognizing 24 hour time speech
 #TIME_WORDS = WEEK_WORDS + MONTH_WORDS + _MISC_TIME_WORDS
 #TIME_WORDS_NUMBERS = TIME_WORDS + NUMBER_WORDS + ORDINAL_NUMBER_WORDS
 
@@ -142,7 +142,7 @@ def _get_number_str_from_words(num_words:list) -> str:
     return final_number
 
 
-#-------- Tokenization Functions (main accesible functions) --------#
+#-------- Tokenization Functions (main accessible functions) --------#
 
 def get_basic_tokens_and_quote_sections(text:str) -> tuple[list[str], list[str]]:
     """Returns a list containing only the individual words/tokens within a string of text, 
@@ -256,7 +256,7 @@ def convert_words_to_numbers(words:list[str]) -> tuple[list, list]:
 
         last_word = word                                    # set last_word to be word
 
-    convert_current_num_words()                             # convert any remianing number words 
+    convert_current_num_words()                             # convert any remaining number words 
 
     return new_tokens, converted_words
 
@@ -267,10 +267,10 @@ def convert_words_numbers_to_times(words_numbers:list):
 
 
 def convert_words_to_durations(words:list) -> tuple[list, list]:
-    """Convert all of the words in a list into intergers representing duration in seconds"""
-    # all spoken/writen durations will roughly follow the formula of: 'quanity' (which is a word or number) + durational unit (a word)
-    # and if these 'quanitity + unit' pairs are next to each other (or separated by 'and'), they belong to the same duration
-    tokens, converted = convert_words_to_numbers(words)     # first convert number words and colloqial quantity words to numbers
+    """Convert all of the words in a list into integers representing duration in seconds"""
+    # all spoken/written durations will roughly follow the formula of: 'quantity' (which is a word or number) + durational unit (a word)
+    # and if these 'quantity + unit' pairs are next to each other (or separated by 'and'), they belong to the same duration
+    tokens, converted = convert_words_to_numbers(words)     # first convert number words and colloquial quantity words to numbers
     new_tokens = []                                         # holds the words, numbers, and newly created times
     last_token = None                                       # the previous token in the list cycle
     # 1) First cycle -> pair up quantities (numbers) and durational units ('minute', 'hour', etc.)
@@ -292,7 +292,7 @@ def convert_words_to_durations(words:list) -> tuple[list, list]:
                 # otherwise, do the same but don't pair current token:
                 else:
                     new_tokens.append((token,))
-        # otherwse just append token to new_tokens
+        # otherwise just append token to new_tokens
             else:
                 new_tokens.append(token)
         else:
@@ -328,19 +328,19 @@ def convert_words_to_durations(words:list) -> tuple[list, list]:
                     og_words.append(dur)                    # if not tuple, must be "and" - just add this to og_words
             new_tokens.append((DURATION_SYMBOL, duration))  # append the full duration to new_tokens
             converted_words.append(og_words)                # and the og_words to converted words (will be combined with the original converted words of any converted number used in the duration)
-            current_duration.clear()                        # then reset current durration
+            current_duration.clear()                        # then reset current duration
 
-    # 2) Second cycle -> process any durational pairs (tuples of quanitity and unit), and process them together as a single duration if they're next to each other (or has 'and' between them)
+    # 2) Second cycle -> process any durational pairs (tuples of quantity and unit), and process them together as a single duration if they're next to each other (or has 'and' between them)
     for i, token in enumerate(tokens):
         # see what the next token is (unless this is the last element in list):
         try:
             next_token = tokens[i+1]
         except:
             next_token = None
-        # if the token is 'and' and it's inbetween two durations, add to current_duration:
+        # if the token is 'and' and it's in between two durations, add to current_duration:
         if token == 'and' and current_duration and isinstance(next_token, tuple):
             current_duration.append(token)
-        # if token is a duration (tuple), add to current_diration
+        # if token is a duration (tuple), add to current_duration
         elif isinstance(token, tuple):
             current_duration.append(token)
         # otherwise, process any current_duration, and add token to new_tokens

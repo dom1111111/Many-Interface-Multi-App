@@ -67,7 +67,7 @@ def _get_func_ref(ref:str|list, func_map:dict) -> tuple:
 def _convert_pre_req(freq:list, action_func_map:dict) -> tuple:
     """convert a pre-requirement into a tuple: (func, (args), required_return_value)"""
     # the first item must always be the function name ref, and the last item must be the return value to check
-    # any items inbetween (optional) are args to pass to the function
+    # any items in between (optional) are args to pass to the function
     assert len(freq) >= 2, "All function requirements need 1 function and a return value to check"    
     if len(freq) > 2:
         return (_get_func_ref(freq[:-1], action_func_map)) + (freq[-1],)
@@ -106,7 +106,7 @@ def _convert_input_req(req, aliases:dict) -> tuple:
                 req = req[1:]                           # if the string starts with the escape character, then set match value to be everything after it
             else:
                 req_split = req.split()
-                if len(req_split) > 1:                  # if the string has mutliple words in it (whitespace in between) then treat it as an ordered-type req
+                if len(req_split) > 1:                  # if the string has multiple words in it (whitespace in between) then treat it as an ordered-type req
                     r_type = "ORDERED"                  # ORDERED
                     value = [('STRING', word, None) for word in req_split]
                 else:                                   # STRING

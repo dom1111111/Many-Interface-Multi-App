@@ -46,7 +46,7 @@ def _get_input_req_string_counts_and_vocab(input_req:tuple, vocab_counts:dict) -
         for sub_req in req_val:
             sub_vocab, sub_count = _get_input_req_string_counts_and_vocab(sub_req, vocab_counts)
             if not sub_count:
-                return [], 0                # if any of the `sub_counts` are 0 (meaning not STRING or not present in vocab_counts), then imediately return an empty list and 0 for the entire thing
+                return [], 0                # if any of the `sub_counts` are 0 (meaning not STRING or not present in vocab_counts), then immediately return an empty list and 0 for the entire thing
             else:
                 vocab.append(sub_vocab)
                 count += sub_count
@@ -93,7 +93,7 @@ def get_unique_input_vocab_map(commands:dict) -> dict:
         # and how ever many times that value shows up, is the total count for this req.
         # - ANY type requirements must have all of their STRING type sub reqs included, and so the count is summed across them. This
         # is because any of the sub reqs could be used in the input to get to the command, so *all* sub-reqs must be considered.
-        # - the oposite is true for ALL/ORDERED types because all of the sub-reqs must be used in input, and therefore the use of *any*
+        # - the opposite is true for ALL/ORDERED types because all of the sub-reqs must be used in input, and therefore the use of *any*
         # one of them ensures that this req is reached. Only one STRING type's vocab within the all/ord needs to be used (and so the most unique one / longest is used).
     for name, data in commands.items():
         func_reqs, input_reqs, actns = data.values()
@@ -107,7 +107,7 @@ def get_unique_input_vocab_map(commands:dict) -> dict:
 def get_full_input_vocab_map(commands:dict) -> dict:
     """Generate a dict containing each command's name and the collective vocabulary (word tokens) of all its input requirements"""
     # for each command, get the vocabulary of each input requirement (data.values()[1]), combine them together in a single list with the flatten_generator, 
-    # remove duplicates by converting to a set, then convert back to a list and use that as the value and command name as key in the dicttionary comprehension
+    # remove duplicates by converting to a set, then convert back to a list and use that as the value and command name as key in the dictionary comprehension
     return {name: list({v for v in flatten_generator(_get_input_req_vocab(req) for req in tuple(data.values())[1]) if v}) for name, data in commands.items()}
 
 
@@ -157,7 +157,7 @@ def _check_input_req_get_values(req:tuple, input_tokens:list) -> tuple:
                     continue
                 rpl_val = token if not rpl_val else rpl_val     # use the generated token as the replacement value if none is specified, otherwise just keep the specified repl value
                 matched_value = converted_original_tokens[0]    # use only the *first* list of converted_original_tokens as the overall match value
-                break                                           # and use only the first token found (break immediadtely after one is found)                                              
+                break                                           # and use only the first token found (break immediately after one is found)                                              
     # ANY - requirement isn't a requirement on its own, but is considered met if *any* of the requirements within it are met
     elif req_type == "ANY":
         for sub_req in req_val:
@@ -211,7 +211,7 @@ def _get_open_req_value(input_text:str, input_quotes:list, match_values:list):
                 input_split[i] = SEPARATOR                  # and set the match value word in input_split to the separator value
         open_req_val = ' '.join(input_split).strip()        # join the words back into a single string
         i = open_req_val.rindex(SEPARATOR) + len(SEPARATOR)
-        open_req_val = open_req_val[i:].strip()             # find the index of last occurance of the separator, and isolate everything after that index in the string (and remove trailing whitespace)
+        open_req_val = open_req_val[i:].strip()             # find the index of last occurrence of the separator, and isolate everything after that index in the string (and remove trailing whitespace)
 
     return open_req_val
 

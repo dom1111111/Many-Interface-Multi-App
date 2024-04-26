@@ -11,12 +11,12 @@ class tkTextBoxGUI(CoreUI):
         super().__init__()                              # initiate parent class
 
         try:
-            windll.shcore.SetProcessDpiAwareness(1)     # this makes it so that text is not blury!
+            windll.shcore.SetProcessDpiAwareness(1)     # this makes it so that text is not blurry!
         except:
             pass
 
         # create GUI window
-        self.window = tk.Tk()                           # create root tk window wdiget    
+        self.window = tk.Tk()                           # create root tk window widget    
         self.window.title = title                       # set title of root window
         set_geometry_sensibly(self.window, 60)          # set the window to start in the center, and take up 60% of the screen
         self.window.configure(background='black', padx=5, pady=5)   # set background colour and padding

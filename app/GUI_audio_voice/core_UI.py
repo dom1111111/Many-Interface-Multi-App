@@ -19,7 +19,7 @@ class CoreUI():
         """
         self._input_q = Queue()                 # stores user input events
         
-        self._speech_proc = SpeechProcessor()   # speech recognition - phrase listener and trasncriber
+        self._speech_proc = SpeechProcessor()   # speech recognition - phrase listener and transcriber
         self._listening = Event()               # keeps track of whether or not to capture and store voice input
         self._use_wakeword = Event()            # keeps track of whether or not to use and listen for wakeword
         self.wakewords = ["computer"]           # the word(s) used for wakeword system
@@ -112,7 +112,7 @@ class CoreUI():
         """Transcribe phrase audio data into text.
         `vocabulary` must be a list of words.
         If vocabulary is not provided, then the transcriber will use entire language vocabulary, which will take longer"""
-        vocab = " ".join(vocab) if vocab else None                  # vocab list must be joined into a single string of words sperated by whitespace
+        vocab = " ".join(vocab) if vocab else None                  # vocab list must be joined into a single string of words separated by whitespace
         return self._speech_proc.transcribe(audio, vocab)
 
     #---------
@@ -120,7 +120,7 @@ class CoreUI():
     # program notification sounds
     def prog_sound(self, sound:str, wait:bool=True):
         """play program sound according to the `sound` string arg. 
-        `wait` specifies if program will block until the audio is done playing - defualt is `True`."""
+        `wait` specifies if program will block until the audio is done playing - default is `True`."""
         sound_map = {
             "LISTENING":    TONES_1_5,
             "DONE":         TONES_5_1 
@@ -134,8 +134,8 @@ class CoreUI():
 
     # speech generation & output
     def say(self, message:str, wpm:int=200, wait:bool=False):
-        """Play back audio of a computer generated voice saying a given string message in a sperate thread (non-blocking).
-        However, if `wait` is set to `True`, this will block until the audio is done playing - defualt is `False`.
+        """Play back audio of a computer generated voice saying a given string message in a separate thread (non-blocking).
+        However, if `wait` is set to `True`, this will block until the audio is done playing - default is `False`.
         `wpm` is an optional argument for speaking speed (words per minute). Default value is `200`."""
         self._audio_player.stop()                                   # stop any existing audio
         tts_file = BytesIO()                                        # temp file to store tts audio

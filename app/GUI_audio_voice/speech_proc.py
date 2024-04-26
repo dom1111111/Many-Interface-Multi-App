@@ -12,14 +12,14 @@ class _WhisperT:
     def __init__(self):
         model_path = "tiny.en"                                  # choice between "tiny", "base", "small", "medium", "large"
         self.model = WhisperModel(model_path)
-        self.no_speech_prob_threshold = 0.1                     # the lower the float, the more strict the transcription wuality filtering will be
+        self.no_speech_prob_threshold = 0.1                     # the lower the float, the more strict the transcription quality filtering will be
 
     def transcribe(self, audio_data):
         """transcribe!"""
         audio_data = np.frombuffer(audio_data, np.int16).flatten().astype(np.float32) / 32768.0     # convert audio data into format that transcriber can use
-        segments, info = self.model.transcribe(audio_data, language="en")                           # trasncribe audio
+        segments, info = self.model.transcribe(audio_data, language="en")                           # transcribe audio
         text = ""
-        for seg in segments:                                    # combine the text of each segment together, so long as its no-speech-probability is below the threshhold
+        for seg in segments:                                    # combine the text of each segment together, so long as its no-speech-probability is below the threshold
             seg = seg._asdict()
             if seg['no_speech_prob'] < self.no_speech_prob_threshold:
                 text += seg['text'].strip() + " "
@@ -75,7 +75,7 @@ class SpeechProcessor:
         self._phrase_chunks = []                                # holds the recorded audio data chunks which are above the threshold
         self._audio_q = Queue()                                 # holds audio data for phrases, ready for transcription
         #-- Transcribers --#
-        self._limited_vocab_transcriber = _VoskT()              # the limited vobcabulary transcriber
+        self._limited_vocab_transcriber = _VoskT()              # the limited vocabulary transcriber
         self._full_vocab_transcriber = _WhisperT()              # the full vocabulary transcriber
 
     #----- Phrase Capture Support Methods -----#
@@ -103,7 +103,7 @@ class SpeechProcessor:
             # regardless of above condition, clear phrase_chunks
             self._phrase_chunks.clear()
 
-    #----- Phrase Capture Accessbile Methods -----#
+    #----- Phrase Capture Accessible Methods -----#
 
     def start_stream(self):
         """start listening for voice input"""
@@ -135,13 +135,6 @@ class SpeechProcessor:
         """Get the length of a phrase in seconds"""
         n_bytes_per_sample = self._sample_width / 8
         return len(phrase) / self._sample_rate / n_bytes_per_sample
-    
-    # def remove_words_from_phrase(self, phrase:bytes, transcription_data:dict) -> bytes:
-    #     """Remove all audio corresponding to the containing the words from phrase"""
-    #     phrase_len = self.get_phrase_length(phrase)
-    #     min_word_time = transcription_data['result'][0]["start"]
-    #     max_word_time = transcription_data['result'][-1]["end"]
-    #     return
     
     #----- Phrase Transcription Methods -----#
 

@@ -53,16 +53,16 @@ class _BaseAudio:
         """
         if hasattr(self, 'stream'):             # checks if 'stream' exists (it won't exist if nothing was played/recorded yet)
             self.stream.close()
-            del self.stream                     # this is neccessary to avoid errors!
+            del self.stream                     # this is necessary to avoid errors!
 
 class PlayAudio(_BaseAudio):
     """
-    * `play(audio_file_path)` - play audio in a seperate thread
+    * `play(audio_file_path)` - play audio in a separate thread
     """
 
     def play(self, audio_file_path:str, wait:bool=False):
         """
-        Play audio in a seperate thread (non-blocking).
+        Play audio in a separate thread (non-blocking).
         If `wait` is set to true, then this WILL block for the duration of the audio.
         """
         self.stop()                         # if there is already an open stream, close it first
@@ -106,9 +106,9 @@ class RecAudio(_BaseAudio):
     * `reset_pars` - reset the audio parameters to their original values
     * `set_callback` - override the normal recording callback function
     * `reset_callback` - reset back to normal recording callback function
-    * `record()` - start a recording in a sperate thread
+    * `record()` - start a recording in a separate thread
     * `stop_and_return()` - ends the audio recording and returns the raw audio data
-    * `write_to_file(audio, file_path)` - takes in audio data and writes it to a wave file accroding to the file path given
+    * `write_to_file(audio, file_path)` - takes in audio data and writes it to a wave file according to the file path given
     """
 
     def __init__(self):
@@ -142,7 +142,7 @@ class RecAudio(_BaseAudio):
 
     def reset_pars(self):
         """
-        Resets audio paramters to original values:
+        Resets audio parameters to original values:
         * `CHUNK` = 1024
         * `CHANNELS` = 1
         * `RATE` = 44100
@@ -151,7 +151,7 @@ class RecAudio(_BaseAudio):
 
     def set_callback(self, func):
         """
-        Overrides the behaviour of the normal recording callback function and instead calls the procided `func` argument.
+        Overrides the behavior of the normal recording callback function and instead calls the provided `func` argument.
         
         The `func` argument given MUST be a function, and accept audio data bytes (pyaudio callback `in_data`) as its only argument
         """

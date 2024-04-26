@@ -24,11 +24,11 @@ def debug_pprint(*args, title=None):
 class App():
     def __init__(self, commands_path:str, user_func_map:dict=None):
         """
-        Instatiate this class to build an instance of the app.
+        Instantiate this class to build an instance of the app.
 
         Accepts 2 arguments:
         - `commands_path` (required): a str path to a JSON file containing the commands (must adhere to proper command data syntax)
-        - `user_func_map` (optional): a dictionary containing string refferences to any python functions which the commands may refference
+        - `user_func_map` (optional): a dictionary containing string references to any python functions which the commands may reference
 
         This class also adds on to the user_func_map with exposure to methods with access to the internal parts app, such as the UI,
         as well as access to external processes (via python's subprocess module).
@@ -41,7 +41,7 @@ class App():
         self._active = False                                                            # keeps track of whether or not to keep running main loop
 
         #-- Action Function Map --#
-        self.func_map = {                                                               # an initial map of string refferences to all internal command action methods
+        self.func_map = {                                                               # an initial map of string references to all internal command action methods
             "SHUTDOWN":     self.shutdown,
             "SAY":          self.say,
             "IS_SPEAKING":  self._UI.is_listening,
@@ -149,14 +149,14 @@ class App():
                 if not commands:                        # continue on to the next loop cycle if at any point, `commands` is empty
                     continue
                 debug_pprint(commands, title="1)Commands with *Met Pre-Reqs* or *No Pre-Reqs*")
-            # (2a) if the input type is voice, then update input_text with an initial transcription using the most unique vocabulary of each command.
+            # (3a) if the input type is voice, then update input_text with an initial transcription using the most unique vocabulary of each command.
             # this way, the smallest possible vocabulary can be used to check for all commands (smaller vocab == faster more accurate transcription!)
                 if input_type == "VOICE":
                     unique_vocab = list(flatten_generator([self._com_to_unique_vocab.get(name) for name in commands.keys()]))
                     input_text = self._UI.transcribe_audio(input_data, unique_vocab + self._general_vocab)
                 if not input_text:
                     continue
-            # (2b) output user input text
+            # (3b) output user input text
                 self._UI.mainview_append(f'"{input_text}"', 'right')
                 debug_pprint(f'"{input_text}"', title='User Input Text 1')
             # (4) split input_text into inidividual tokens (words)
